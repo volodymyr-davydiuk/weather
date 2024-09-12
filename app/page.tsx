@@ -2,6 +2,9 @@
 
 import Input from './component/Input';
 import React, { useState } from 'react';
+import Current from './component/Current';
+import WeekForcast from '@/app/component/WeekForcast';
+import WeatherDetails from '@/app/component/WeatherDetails';
 
 const Home = () => {
   const [data, setData] = useState({});
@@ -16,7 +19,7 @@ const Home = () => {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error();
+          throw new Error(`Error: ${response.status}`);
         }
         const data = await response.json();
         setData(data);
@@ -36,13 +39,37 @@ const Home = () => {
     <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-screen">
       <div className="bg-white/25 w-full h-fit flex flex-col">
         {/*Header*/}
-        <div className="flex flex-col md:flex-row justify-between items-center p-12">
+        <header className="flex flex-col md:flex-row justify-between items-center p-12">
           <Input
             handleSearch={handleSearch}
             setLocation={setLocation}
           />
           <h1 className="mb-8 md:mb-0 order-1 text-white py-2 px-4 rounded-xl italic font-bold">Weather App.</h1>
-        </div>
+        </header>
+        <main>
+          {
+            Object.keys(data).length === 0 && error === "" ? (
+              <div>
+                <h2>Welcome to the weather app.</h2>
+              </div>
+            ) : error !== "" ? (
+              <div>
+                <p>The city not found!</p>
+                <p>Please, enter a valid city.</p>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <Current data={data}/>
+                  <WeekForcast/>
+                </div>
+                <div>
+                  <WeatherDetails/>
+                </div>
+              </>
+            )
+          }
+        </main>
       </div>
     </div>
   );
