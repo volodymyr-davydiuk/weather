@@ -1,7 +1,7 @@
 "use client"
 
 import Input from './component/Input';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Current from './component/Current';
 import WeekForecast from '@/app/component/WeekForecast';
 import WeatherDetails from '@/app/component/WeatherDetails';
@@ -11,30 +11,32 @@ const Home = () => {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [activeDay, setActiveDay] = useState(0);
+  let localCity: string | null = localStorage.getItem("city");
 
   const url = `https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KYE}&q=${location}&days=7&aqi=yes&alerts=yes`;
 
-  const handleSearch = async(e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+  useEffect(() => {
+    if (localCity) {
+      setLocation(localCity);
+      const handleLocalSearch = async () => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+          }
+          const data = await response.json();
+          setData(data);
+          setLocation("");
+          setError("");
+        } catch (error) {
+          console.error(error);
+          setError("City not found");
+          setData({});
         }
-        const data = await response.json();
-        setData(data);
-        setLocation("");
-        setError("");
-      } catch (error) {
-        console.error(error);
-        setError("City not found");
-        setData({});
       }
+      handleLocalSearch()
     }
-  }
-
-  console.log(data);
+  }, [localCity])
 
   return (
     <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-fit">
@@ -42,7 +44,6 @@ const Home = () => {
         {/*Header*/}
         <header className="flex flex-col md:flex-row justify-between items-center p-12">
           <Input
-            handleSearch={handleSearch}
             setLocation={setLocation}
           />
           <h1 className="mb-8 md:mb-0 order-1 text-white py-2 px-4 rounded-xl italic font-bold">Weather App.</h1>
