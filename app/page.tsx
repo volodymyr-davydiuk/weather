@@ -3,7 +3,7 @@
 import Input from './component/Input';
 import React, { useState } from 'react';
 import Current from './component/Current';
-import WeekForcast from '@/app/component/WeekForcast';
+import WeekForecast from '@/app/component/WeekForecast';
 import WeatherDetails from '@/app/component/WeatherDetails';
 
 const Home = () => {
@@ -36,7 +36,7 @@ const Home = () => {
   console.log(data);
 
   return (
-    <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-screen">
+    <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-fit">
       <div className="bg-white/25 w-full h-fit flex flex-col">
         {/*Header*/}
         <header className="flex flex-col md:flex-row justify-between items-center p-12">
@@ -59,12 +59,12 @@ const Home = () => {
               </div>
             ) : (
               <>
-                <div>
+                <div className="flex md:flex-row flex-col p-12 items-center justify-between">
                   <Current data={data}/>
-                  <WeekForcast/>
+                  <WeekForecast data={data}/>
                 </div>
                 <div>
-                  <WeatherDetails/>
+                  <WeatherDetails data={data}/>
                 </div>
               </>
             )

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WeatherDetails = () => {
+const WeatherDetails = ({ data }) => {
   return (
     <div>
       
