@@ -15,6 +15,7 @@ const Input = ({ setLocation }: InputProps) => {
         placeholder="Enter your city"
         className="w-full bg-transparent border-b-2 placeholder-white outline-none text-white text-2xl"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {setLocation(e.target.value); localStorage.setItem("city", e.target.value)}}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" ? e.preventDefault() : null }
       />
       <div className="ml-[-25px] text-white cursor-pointer text-2xl">
         <BiSearch />

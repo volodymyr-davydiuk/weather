@@ -34,7 +34,7 @@ interface WeatherDetailsProps {
 
 const WeatherDetails = ({ data, activeDay }: WeatherDetailsProps) => {
   const currentData = data?.forecast?.forecastday[activeDay].day;
-  console.log(currentData)
+
   return (
     <>
      <div className="p-12">

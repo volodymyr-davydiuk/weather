@@ -11,13 +11,16 @@ const Home = () => {
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
   const [activeDay, setActiveDay] = useState(0);
-  let localCity: string | null = localStorage.getItem("city");
 
   const url = `https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KYE}&q=${location}&days=7&aqi=yes&alerts=yes`;
 
   useEffect(() => {
-    if (localCity) {
-      setLocation(localCity);
+    const savedLocation = window.localStorage.getItem("city");
+    setLocation(savedLocation ? String(savedLocation) : "");
+  }, []);
+
+  useEffect(() => {
+    if (location !== "") {
       const handleLocalSearch = async () => {
         try {
           const response = await fetch(url);
@@ -36,11 +39,12 @@ const Home = () => {
       }
       handleLocalSearch()
     }
-  }, [localCity])
+  }, [location, url]);
 
-  return (
+
+    return (
     <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-fit">
-      <div className="bg-white/25 w-full h-fit flex flex-col">
+      <div className="bg-white/25 w-full h-fit min-h-screen flex flex-col">
         {/*Header*/}
         <header className="flex flex-col md:flex-row justify-between items-center p-12">
           <Input
