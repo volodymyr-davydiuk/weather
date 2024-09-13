@@ -57,7 +57,7 @@ const Current = ({ data }: CurrentProps) => {
         {data.location && (
           <div className="flex items-center text-black bg-white/90 px-2 py-2 rounded-xl">
             <FaLocationDot/>
-            <span>{data.location.name}, {data.location.region}, {data.location.country}</span>
+            <span className="ml-1">{data.location.name}, {data.location.region}, {data.location.country}</span>
           </div>
         )}
       </div>

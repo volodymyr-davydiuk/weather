@@ -30,7 +30,7 @@ const WeekForecast = ({ data, activeDay, setActiveDay }: WeekForecastProps) => {
         return (
           <div key={`day-${index}`}
                className={`
-                 bg-white/${index === activeDay ? 90 : 40} 
+                 bg-white/${index === activeDay ? 90 : 50} 
                  hover:bg-white/90 
                  transition-colors duration-150
                  ease-linear
