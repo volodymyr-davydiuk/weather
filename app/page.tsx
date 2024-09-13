@@ -33,7 +33,7 @@ const Home = () => {
     }
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-fit">
