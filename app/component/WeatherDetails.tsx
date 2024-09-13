@@ -1,33 +1,40 @@
 import React from 'react';
 import { LuWind } from 'react-icons/lu';
 import { WiHumidity } from 'react-icons/wi';
-import { GiCompass, GiWindSlap } from 'react-icons/gi';
+import { GiWindSlap } from 'react-icons/gi';
 import { BsSunrise, BsSunset } from 'react-icons/bs';
 import { FaEye } from 'react-icons/fa';
 import { CiTempHigh } from 'react-icons/ci';
 
 interface WeatherDetailsProps {
   data: {
-    current?: {
-      wind_kph: number;
-      humidity: number;
-      wind_dir: string;
-      pressure_mb: number;
-      feelslike_c: number;
-      vis_km: number;
-    }
     forecast?: {
       forecastday: {
         astro: {
           sunrise: string;
           sunset: string;
         }
+        day: {
+          maxwind_kph: number;
+          avghumidity: number;
+          condition: {
+            icon: string;
+            text: string;
+          };
+          totalprecip_mm: number;
+          mintemp_c: number;
+          maxtemp_c: number;
+          avgvis_km: number;
+        }
       }[]
     }
-  }
+  };
+  activeDay: number;
 }
 
-const WeatherDetails = ({ data }: WeatherDetailsProps) => {
+const WeatherDetails = ({ data, activeDay }: WeatherDetailsProps) => {
+  const currentData = data?.forecast?.forecastday[activeDay].day;
+  console.log(currentData)
   return (
     <>
      <div className="p-12">
@@ -41,7 +48,7 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
                Wind speed:
              </h3>
              <p>
-               {data?.current?.wind_kph} km/h
+               {currentData?.maxwind_kph} km/h
              </p>
            </div>
            <div>
@@ -54,7 +61,7 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
                Humidity:
              </h3>
              <p>
-               {data?.current?.humidity} %
+               {currentData?.avghumidity} %
              </p>
            </div>
            <div>
@@ -63,15 +70,12 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
          </div>
          <div className="bg-white/50 p-4 flex items-center justify-center gap-6 rounded-xl">
            <div className="text-2xl">
-             <h3>
-               Wind direction:
-             </h3>
              <p>
-               {data?.current?.wind_dir}
+               {currentData?.condition.text}
              </p>
            </div>
            <div>
-             <GiCompass fontSize={40}/>
+             <img src={currentData?.condition.icon} alt={currentData?.condition.text}/>
            </div>
          </div>
          <div className="bg-white/50 p-4 flex items-center justify-center gap-6 rounded-xl">
@@ -80,7 +84,7 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
                Sunrise:
              </h3>
              <p>
-               {data?.forecast?.forecastday[0].astro.sunrise}
+               {data?.forecast?.forecastday[activeDay].astro.sunrise}
              </p>
            </div>
            <div>
@@ -93,7 +97,7 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
                Sunset:
              </h3>
              <p>
-               {data?.forecast?.forecastday[0].astro.sunset}
+               {data?.forecast?.forecastday[activeDay].astro.sunset}
              </p>
            </div>
            <div>
@@ -103,10 +107,10 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
          <div className="bg-white/50 p-4 flex items-center justify-center gap-6 rounded-xl">
            <div className="text-2xl">
              <h3>
-               Air pressure:
+               Total precip:
              </h3>
              <p>
-               {data?.current?.pressure_mb} hPa
+               {currentData?.totalprecip_mm} mm
              </p>
            </div>
            <div>
@@ -116,10 +120,13 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
          <div className="bg-white/50 p-4 flex items-center justify-center gap-6 rounded-xl">
            <div className="text-2xl">
              <h3>
-               Feels like:
+               Temperature:
              </h3>
              <p>
-               {data?.current?.feelslike_c} °C
+               Min: {currentData?.mintemp_c.toFixed()} °C
+             </p>
+             <p>
+               Max: {currentData?.maxtemp_c.toFixed()} °C
              </p>
            </div>
            <div>
@@ -132,7 +139,7 @@ const WeatherDetails = ({ data }: WeatherDetailsProps) => {
                Visibility:
              </h3>
              <p>
-               {data?.current?.vis_km} km
+               {currentData?.avgvis_km} km
              </p>
            </div>
            <div>

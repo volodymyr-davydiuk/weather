@@ -10,6 +10,7 @@ const Home = () => {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
   const [error, setError] = useState("");
+  const [activeDay, setActiveDay] = useState(0);
 
   const url = `https://api.weatherapi.com/v1/forecast.json?key=${process.env.WEATHER_API_KYE}&q=${location}&days=7&aqi=yes&alerts=yes`;
 
@@ -33,7 +34,7 @@ const Home = () => {
     }
   }
 
-  // console.log(data);
+  console.log(data);
 
   return (
     <div className="bg-cover bg-gradient-to-r from-blue-600 to-blue-300 h-fit">
@@ -62,10 +63,10 @@ const Home = () => {
               <>
                 <div className="flex md:flex-row flex-col p-12 items-center justify-between">
                   <Current data={data}/>
-                  <WeekForecast data={data}/>
+                  <WeekForecast data={data} activeDay={activeDay} setActiveDay={setActiveDay}/>
                 </div>
                 <div>
-                  <WeatherDetails data={data}/>
+                  <WeatherDetails data={data} activeDay={activeDay}/>
                 </div>
               </>
             )

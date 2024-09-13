@@ -14,6 +14,7 @@ interface CurrentProps {
     location?: {
       name: string;
       region: string;
+      country: string;
     };
   };
 }
@@ -23,7 +24,7 @@ const Current = ({ data }: CurrentProps) => {
   const weatherIconData = data?.current?.condition;
 
   return (
-    <div className="flex flex-col mb-8 md:mb-0 items-start gap-2 w-1/2">
+    <div className="flex flex-col mb-8 md:mb-0 items-start gap-2 w-full md:w-1/2 mr-0 md:mr-6">
       <div className="flex items-center">
         {
           weatherIconData && (
@@ -43,7 +44,7 @@ const Current = ({ data }: CurrentProps) => {
       </div>
       <div>
         {data.current && (
-          <div>
+          <div className="mb-4">
             <p className="text-5xl text-white">
               {
                 data.current.temp_c.toFixed()
@@ -56,7 +57,7 @@ const Current = ({ data }: CurrentProps) => {
         {data.location && (
           <div className="flex items-center text-black bg-white/90 px-2 py-2 rounded-xl">
             <FaLocationDot/>
-            <span>{data.location.name}, {data.location.region}</span>
+            <span>{data.location.name}, {data.location.region}, {data.location.country}</span>
           </div>
         )}
       </div>

@@ -14,11 +14,11 @@ const Input = ({ handleSearch, setLocation }: InputProps) => {
       <input
         type="text"
         placeholder="Enter your city"
-        className="w-full bg-transparent border-b-2 placeholder-white outline-none text-white"
+        className="w-full bg-transparent border-b-2 placeholder-white outline-none text-white text-2xl"
         onKeyDown={handleSearch}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocation(e.target.value)}
       />
-      <div className="ml-[-25px] text-white cursor-pointer">
+      <div className="ml-[-25px] text-white cursor-pointer text-2xl">
         <BiSearch />
       </div>
     </form>
